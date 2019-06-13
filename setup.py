@@ -16,15 +16,18 @@ sources = [join('.', 'src', file) for file in sources]
 depends = [join('.', 'src', file) for file in headers]
 
 optional = {}
+libraries = []
 if platform.system() == 'Linux':
     optional['extra_compile_args'] = ['-std=c++11']
     optional['runtime_library_dirs'] = ['./']
-    optional['include_dirs']=['./v6.3.6_20160606_api_tradeapi_linux64']
-    optional['library_dirs']=['./v6.3.6_20160606_api_tradeapi_linux64']
+    optional['include_dirs']=['./v6.3.15_20190220_api_tradeapi_se_linux64', './v6.3.15_20190220_api_clientdatacollectdll_linux64']
+    optional['library_dirs']=['./v6.3.15_20190220_api_tradeapi_se_linux64', './v6.3.15_20190220_api_clientdatacollectdll_linux64']
+    libraries=['thostmduserapi_se', 'thosttraderapi_se','LinuxDataCollect']
 #    depend_dynamics = ['libthostmduserapi.so', 'libthosttraderapi.so']
 if platform.system() == 'Windows':
     optional['include_dirs'] = ['./v6.3.6_20160606_tradeapi_windows']
     optional['library_dirs'] = ['./v6.3.6_20160606_tradeapi_windows']
+    libraries=['thostmduserapi_se', 'thosttraderapi_se','WinDataCollect']
     if '64 bit' in platform.python_compiler():
         optional['include_dirs'] = ['./v6.3.15_20190220_tradeapi64_se_windows','v6.3.15_20190220_clientdll64_windows']
         optional['library_dirs'] = ['./v6.3.15_20190220_tradeapi64_se_windows','v6.3.15_20190220_clientdll64_windows']
@@ -32,7 +35,7 @@ if platform.system() == 'Windows':
 argments = dict(name='PyCTP',
                 sources=sources,
                 language='c++',
-                libraries=['thostmduserapi_se', 'thosttraderapi_se','WinDataCollect'],
+                libraries=libraries,
                 depends=depends)
 argments.update(optional)
 
